@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Proyecto de Vida | Daniel Esteban Quintero Londoño</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ============ VARIABLES ============ */
+    :root {
+      --primary: #8b5cf6;
+      --primary-dark: #7c3aed;
+      --primary-light: #c084fc;
+      --bg: #0a0814;
+      --bg-card: rgba(26, 21, 48, 0.7);
+      --bg-card-hover: rgba(36, 30, 64, 0.85);
+      --text: #f3f4f6;
+      --text-muted: #a78bfa;
+      --border: rgba(139, 92, 246, 0.25);
+      --accent: #a78bfa;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --shadow: 0 20px 40px rgba(0,0,0,0.4);
+      --shadow-hover: 0 30px 60px rgba(0,0,0,0.5);
+      --radius: 20px;
+      --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ============ RESET ============ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.7;
+      padding-bottom: 120px;
+      overflow-x: hidden;
+    }
+
+    /* ============ FONDO DECORATIVO ============ */
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(249, 115, 22, 0.08) 0%, transparent 40%);
+      pointer-events: none;
+    }
+
+    /* ============ TIPOGRAFÍA ============ */
+    h1, h2, h3, .section-title, .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    p, li, span, label, button, .lang-btn {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ============ UTILIDADES IDIOMA ============ */
+    [data-lang="es"] .en { display: none !important; }
+    [data-lang="en"] .es { display: none !important; }
+
+    /* ============ BARRA DE PROGRESO ============ */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* ============ HEADER / NAV ============ */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 8, 20, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 5%;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-light);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo::before { content: "💻"; font-size: 1.9rem; filter: drop-shadow(0 4px 8px rgba(139,92,246,0.4)); }
+
+    .nav-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .lang-toggle {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-card);
+      padding: 6px;
+      border-radius: 30px;
+      border: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    }
+
+    .print-btn {
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+    }
+
+    .print-btn:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .fullscreen-btn {
+      background: var(--primary-dark);
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+    }
+
+    .fullscreen-btn:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .fullscreen-btn.fullscreen-active {
+      background: var(--danger);
+    }
+
+    .fullscreen-btn.fullscreen-active:hover {
+      background: #f87171;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+
+    .nav-links a:hover { color: var(--primary-light); }
+
+    /* ============ HERO ============ */
+    .hero {
+      padding: 140px 5% 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(139,92,246,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: var(--primary-light);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 20px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 28px;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--primary-light);
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-badge::before { content: "📍"; font-size: 1.2rem; }
+
+    /* ============ CONTENIDO ============ */
+    main { max-width: 960px; margin: 0 auto; padding: 20px 5%; }
+
+    section {
+      margin-bottom: 100px;
+      position: relative;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 80px 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 35px;
+    }
+
+    .section-number {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+    }
+
+    .section-info {
+      flex: 1;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary-light);
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .lang-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      font-weight: 800;
+      background: rgba(139,92,246,0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(139,92,246,0.3);
+      white-space: nowrap;
+    }
+
+    /* ============ TARJETAS GLASSMORPHISM ============ */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-bottom: 28px;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      color: var(--primary-light);
+      margin-bottom: 16px;
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card h3::before { content: "📌"; font-size: 1.4rem; }
+
+    .card p {
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    .card ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .card ul li {
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-left: 26px;
+      position: relative;
+      font-size: 0.98rem;
+      line-height: 1.6;
+    }
+
+    .card ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 10px;
+      height: 10px;
+      background: var(--primary-light);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--primary-light);
+    }
+
+    /* ============ TABLA UNIVERSIDADES ============ */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    th, td {
+      padding: 18px 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    th {
+      background: rgba(139,92,246,0.12);
+      color: var(--primary-light);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover { background: rgba(139,92,246,0.05); }
+
+    .badge-uni {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 14px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .pub { background: rgba(52,211,153,0.15); color: var(--success); border: 1px solid rgba(52,211,153,0.3); }
+    .pri { background: rgba(251,191,36,0.15); color: var(--warning); border: 1px solid rgba(251,191,36,0.3); }
+
+    /* ============ LÍNEA DEL TIEMPO ============ */
+    .timeline {
+      position: relative;
+      max-width: 900px;
+      margin: 40px auto 0;
+      padding: 60px 20px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--primary-light), var(--primary-dark));
+      transform: translateX(-50%);
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 70px;
+      width: calc(50% - 70px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timeline-item:nth-child(odd) {
+      align-items: flex-end;
+      padding-right: 70px;
+    }
+
+    .timeline-item:nth-child(even) {
+      align-items: flex-start;
+      padding-left: 70px;
+      left: 50%;
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: var(--bg-card);
+      border: 3px solid var(--primary);
+      border-radius: 50%;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: var(--primary-light);
+      font-size: 1.2rem;
+      font-family: 'Playfair Display', serif;
+      box-shadow: 0 0 0 8px var(--bg);
+      transition: var(--transition);
+    }
+
+    .timeline-marker.short { border-color: var(--success); color: var(--success); }
+    .timeline-marker.medium { border-color: var(--warning); color: var(--warning); }
+    .timeline-marker.long { border-color: var(--danger); color: var(--danger); }
+
+    .timeline-marker:hover {
+      transform: translateX(-50%) scale(1.1);
+      box-shadow: 0 0 0 8px var(--bg), 0 0 20px currentColor;
+    }
+
+    .timeline-content {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border-left: 4px solid transparent;
+    }
+
+    .timeline-content:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .timeline-content.short { border-left-color: var(--success); }
+    .timeline-content.medium { border-left-color: var(--warning); }
+    .timeline-content.long { border-left-color: var(--danger); }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .timeline-header h4 {
+      font-family: 'Playfair Display', serif;
+      color: var(--primary-light);
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .timeline-tag {
+      margin-left: auto;
+      padding: 5px 16px;
+      background: rgba(139,92,246,0.12);
+      color: var(--primary-light);
+      border-radius: 25px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid rgba(139,92,246,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .timeline-tag.short { background: rgba(52,211,153,0.15); color: var(--success); border-color: rgba(52,211,153,0.3); }
+    .timeline-tag.medium { background: rgba(251,191,36,0.15); color: var(--warning); border-color: rgba(251,191,36,0.3); }
+    .timeline-tag.long { background: rgba(248,113,113,0.15); color: var(--danger); border-color: rgba(248,113,113,0.3); }
+
+    .timeline-content ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .timeline-content ul li {
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-left: 24px;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .timeline-content ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 7px;
+      width: 8px;
+      height: 8px;
+      background: var(--primary-light);
+      border-radius: 50%;
+    }
+
+    .timeline-content ul li.short::before { background: var(--success); }
+    .timeline-content ul li.medium::before { background: var(--warning); }
+    .timeline-content ul li.long::before { background: var(--danger); }
+
+    @media (max-width: 768px) {
+      .timeline::before { left: 24px; }
+      .timeline-item {
+        width: calc(100% - 50px);
+        left: 50px !important;
+        align-items: flex-start !important;
+        padding-left: 60px !important;
+        padding-right: 0 !important;
+      }
+      .timeline-marker { left: 24px; }
+      .timeline-header { justify-content: space-between; }
+      .timeline-tag { margin-left: 0; margin-top: 12px; }
+    }
+
+    /* ============ CITAS ============ */
+    .quote {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, #5b21b6 100%);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 32px;
+      margin: 30px 0;
+      border-left: 6px solid var(--primary-light);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      font-size: 8rem;
+      color: rgba(255,255,255,0.08);
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+    }
+
+    .quote p {
+      color: #fff;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      font-style: italic;
+      position: relative;
+      z-index: 2;
+    }
+
+    .quote p:last-child { margin-bottom: 0; }
+
+    /* ============ FOOTER ============ */
+    footer {
+      text-align: center;
+      padding: 60px 5% 40px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-links {
+      margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+    }
+
+    .footer-links a:hover {
+      color: #fff;
+      border-color: var(--primary-light);
+      background: rgba(139,92,246,0.1);
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* ============ PRINT ============ */
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      header, .lang-toggle, .print-btn, .fullscreen-btn, .nav-links, footer, .color-panel, .color-toggle-btn, .progress-bar, .bg-glow { display: none !important; }
+      .card, table, .timeline-content, .quote { background: #fff !important; border: 1px solid #ccc !important; color: #000 !important; }
+      .quote { background: #f0f0f0 !important; color: #000 !important; }
+      section { page-break-inside: avoid; margin-bottom: 40px; }
+      .timeline::before { background: #000 !important; }
+    }
+
+    /* ============ COLOR PALETTE SWITCHER ============ */
+    .color-panel {
+      position: fixed;
+      top: 100px;
+      right: -320px;
+      width: 300px;
+      max-height: 85vh;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      z-index: 999;
+      transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      box-shadow: var(--shadow);
+      font-family: 'Inter', sans-serif;
+      overflow-y: auto;
+    }
+
+    .color-panel.open { right: 20px; }
+
+    .color-panel h4 {
+      margin: 0 0 20px 0;
+      font-size: 1.1rem;
+      color: var(--primary-light);
+      font-family: 'Playfair Display', serif;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .color-panel .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1.3rem;
+      padding: 4px;
+      transition: var(--transition);
+    }
+
+    .color-panel .close-btn:hover { color: var(--text); }
+
+    .color-panel label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .palette-btn {
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .palette-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25);
+    }
+
+    .palette-btn.active {
+      border-color: var(--primary);
+      background: rgba(139,92,246,0.15);
+    }
+
+    .palette-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+    }
+
+    .color-inputs {
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+    }
+
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .color-row input[type="color"] {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .color-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; border-radius: 8px; }
+    .color-row input[type="color"]::-webkit-color-swatch { border: none; border-radius: 8px; }
+
+    .color-row label { margin: 0; font-size: 0.8rem; flex: 1; }
+
+    .reset-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--border);
+      border: none;
+      border-radius: 10px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-top: 10px;
+      transition: var(--transition);
+    }
+
+    .reset-btn:hover { background: var(--primary); color: #fff; }
+
+    .color-toggle-btn {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      transition: var(--transition);
+    }
+
+    .color-toggle-btn:hover {
+      background: var(--primary-dark);
+      transform: rotate(15deg) scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.5rem; }
+      .section-title { font-size: 1.6rem; }
+      .card { padding: 24px; }
+      .timeline-content { max-width: 100%; }
+      .top-bar { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .nav-group { width: 100%; justify-content: space-between; }
+    }
+  </style>
+</head>
+<body data-lang="es">
+
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="bg-glow"></div>
+
+  <button class="color-toggle-btn" id="colorToggleBtn" title="Cambiar colores">🎨</button>
+
+  <div class="color-panel" id="colorPanel">
+    <h4>
+      Colores
+      <button class="close-btn" id="closeColorPanel">✕</button>
+    </h4>
+
+    <div class="palette-grid">
+      <button class="palette-btn active" data-palette="purple">
+        <div class="palette-swatch" style="background:#8b5cf6;"></div>
+        <div class="palette-swatch" style="background:#7c3aed;"></div>
+        Morado
+      </button>
+      <button class="palette-btn" data-palette="blue">
+        <div class="palette-swatch" style="background:#3b82f6;"></div>
+        <div class="palette-swatch" style="background:#2563eb;"></div>
+        Azul
+      </button>
+      <button class="palette-btn" data-palette="green">
+        <div class="palette-swatch" style="background:#10b981;"></div>
+        <div class="palette-swatch" style="background:#059669;"></div>
+        Verde
+      </button>
+      <button class="palette-btn" data-palette="orange">
+        <div class="palette-swatch" style="background:#f97316;"></div>
+        <div class="palette-swatch" style="background:#ea580c;"></div>
+        Naranja
+      </button>
+      <button class="palette-btn" data-palette="red">
+        <div class="palette-swatch" style="background:#ef4444;"></div>
+        <div class="palette-swatch" style="background:#dc2626;"></div>
+        Rojo
+      </button>
+      <button class="palette-btn" data-palette="pink">
+        <div class="palette-swatch" style="background:#ec4899;"></div>
+        <div class="palette-swatch" style="background:#db2777;"></div>
+        Rosa
+      </button>
+      <button class="palette-btn" data-palette="copilot">
+        <div class="palette-swatch" style="background:#160048;"></div>
+        <div class="palette-swatch" style="background:#f08a3a;"></div>
+        Copilot
+      </button>
+      <button class="palette-btn" data-palette="github">
+        <div class="palette-swatch" style="background:#1a61fe;"></div>
+        <div class="palette-swatch" style="background:#5fbfff;"></div>
+        GitHub
+      </button>
+      <button class="palette-btn" data-palette="cyberpunk">
+        <div class="palette-swatch" style="background:#00f3ff;"></div>
+        <div class="palette-swatch" style="background:#ff00ff;"></div>
+        Cyberpunk
+      </button>
+      <button class="palette-btn" data-palette="ocean">
+        <div class="palette-swatch" style="background:#0f4c81;"></div>
+        <div class="palette-swatch" style="background:#6eb1f2;"></div>
+        Océano
+      </button>
+      <button class="palette-btn" data-palette="forest">
+        <div class="palette-swatch" style="background:#1b4332;"></div>
+        <div class="palette-swatch" style="background:#40916c;"></div>
+        Bosque
+      </button>
+    </div>
+
+    <div class="color-inputs">
+      <label>Color principal</label>
+      <div class="color-row">
+        <label>Primario</label>
+        <input type="color" id="colorPrimary" value="#8b5cf6">
+      </div>
+      <div class="color-row">
+        <label>Oscuro</label>
+        <input type="color" id="colorPrimaryDark" value="#7c3aed">
+      </div>
+      <div class="color-row">
+        <label>Claro</label>
+        <input type="color" id="colorPrimaryLight" value="#c084fc">
+      </div>
+
+      <hr style="border:0; border-top:1px solid var(--border); margin:18px 0;">
+
+      <label>Fondos</label>
+      <div class="color-row">
+        <label>Fondo general</label>
+        <input type="color" id="colorBg" value="#0a0814">
+      </div>
+      <div class="color-row">
+        <label>Tarjetas</label>
+        <input type="color" id="colorBgCard" value="#1a1530">
+      </div>
+    </div>
+
+    <button class="reset-btn" id="resetColors">Restablecer</button>
+  </div>
+
+  <header id="mainHeader">
+    <div class="top-bar">
+      <a href="#" class="logo">Proyecto de Vida<span class="es"> - Daniel</span><span class="en"> - Daniel</span></a>
+
+      <div class="nav-group">
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#parte1"><span class="es">¿Quién soy?</span><span class="en">Who am I?</span></a></li>
+            <li><a href="#parte2"><span class="es">Mi carrera</span><span class="en">My career</span></a></li>
+            <li><a href="#parte3"><span class="es">¿Por qué?</span><span class="en">Why?</span></a></li>
+            <li><a href="#parte4"><span class="es">Mi camino</span><span class="en">My path</span></a></li>
+            <li><a href="#parte5"><span class="es">Realidad</span><span class="en">Reality</span></a></li>
+            <li><a href="#parte6"><span class="es">Futuro</span><span class="en">Future</span></a></li>
+          </ul>
+        </nav>
+
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+
+        <button class="print-btn" onclick="window.print()">🖨️ <span class="es">Imprimir PDF</span><span class="en">Download PDF</span></button>
+        <button class="fullscreen-btn" id="fullscreenBtn" title="Pantalla completa">⛶</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1><span class="es">Mi Proyecto de Vida</span><span class="en">My Life Project</span></h1>
+        <h2><span class="es">Daniel Esteban Quintero Londoño</span><span class="en">Daniel Esteban Quintero Londoño</span></h2>
+        <p><span class="es">Grado 11 · Proyecto ABP · Carrera: Ingeniería de Sistemas</span><span class="en">11th Grade · ABP Project · Career: Systems Engineering</span></p>
+        <span class="hero-badge"><span class="es">Armenia, Quindío, Colombia</span><span class="en">Armenia, Quindío, Colombia</span></span>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PARTE 1 (INGLÉS ÚNICAMENTE) -->
+    <section id="parte1" class="reveal-section">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <div class="section-info">
+          <div class="section-title">Who am I?</div>
+          <div class="section-subtitle">Personal introduction</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Introduction</h3>
+        <p>Hello, my name is Daniel Esteban Quintero Londoño. I am 18 years old and I am from Armenia, Quindío, Colombia. In my free time, I like listening to music, playing video games, playing soccer and watching videos. I am a curious person and I like learning new things. I am also a good team player.</p>
+
+        <p>Video games and soccer have taught me to solve problems, be disciplined and never give up.</p>
+
+        <p><strong>What makes me unique:</strong> I grew up surrounded by family and friends who work in technology. Because of that, I know the reality of this career, and I am ready to build my future in it.</p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PARTE 2 -->
+    <section id="parte2" class="reveal-section">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <div class="section-info">
+          <div class="section-title"><span class="es">Mi carrera: Ingeniería de Sistemas</span><span class="en">My career: Systems Engineering</span></div>
+          <div class="section-subtitle"><span class="es">Qué estudia, dónde y para qué sirve</span><span class="en">What it studies, where and what it is for</span></div>
+        </div>
+        <span class="lang-tag"><span class="es">ESPAÑOL</span><span class="en">ENGLISH</span></span>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">¿En qué consiste?</span><span class="en">What does it consist of?</span></h3>
+        <p class="es">Es la carrera que forma profesionales para diseñar, desarrollar y mantener software, sistemas de información y soluciones tecnológicas: programas, aplicaciones, páginas web, bases de datos, redes y seguridad informática.</p>
+        <p class="en">It is the career that trains professionals to design, develop and maintain software, information systems and technological solutions: programs, applications, websites, databases, networks and IT security.</p>
+      </div>
+
+      <h3 style="color:var(--primary-light); margin: 35px 0 20px; font-family:'Playfair Display',serif; font-size:1.5rem;"><span class="es">¿Dónde la puedo estudiar?</span><span class="en">Where can I study it?</span></h3>
+      <table>
+        <thead>
+          <tr>
+            <th><span class="es">Universidad</span><span class="en">University</span></th>
+            <th><span class="es">Programa</span><span class="en">Program</span></th>
+            <th><span class="es">Duración</span><span class="en">Duration</span></th>
+            <th><span class="es">Notas</span><span class="en">Notes</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Universidad del Quindío</strong> <span class="badge-uni pub">Pública</span><br><small style="color:var(--text-muted)">Armenia</small></td>
+            <td>Ingeniería de Sistemas y Computación</td>
+            <td>10 semestres</td>
+            <td>Estoy en mi ciudad, así que podría estudiar viviendo en casa.</td>
+          </tr>
+          <tr>
+            <td><strong>Universidad Alexander von Humboldt</strong> <span class="badge-uni pri">Privada</span><br><small style="color:var(--text-muted)">Armenia</small></td>
+            <td>Ingeniería de Software</td>
+            <td>8 semestres</td>
+            <td>Modelo dual: combina clases con prácticas en empresas. Jornada diurna o nocturna.</td>
+          </tr>
+          <tr>
+            <td><strong>Universidad de Antioquia</strong> <span class="badge-uni pub">Pública</span><br><small style="color:var(--text-muted)">Medellín</small></td>
+            <td>Ingeniería de Sistemas</td>
+            <td>Aprox. 10 semestres</td>
+            <td>Universidad pública de gran prestigio. Implicaría mudarme de ciudad.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="card">
+        <h3><span class="es">Principales asignaturas</span><span class="en">Main subjects</span></h3>
+        <p class="es">Programación, algoritmos y lógica computacional, matemáticas y cálculo, bases de datos, estructuras de datos, sistemas operativos, redes, ingeniería de software e inglés.</p>
+        <p class="en">Programming, algorithms and computational logic, mathematics and calculus, databases, data structures, operating systems, networks, software engineering and English.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Requisitos de ingreso</span><span class="en">Admission requirements</span></h3>
+        <p class="es">Ser bachiller, presentar la prueba Saber 11 e inscribirme. En las universidades públicas (Quindío y Antioquia) hay un proceso de admisión con puntajes mínimos, por eso mi resultado en el Saber 11 influye directamente en mis metas.</p>
+        <p class="en">Be a high school graduate, take the Saber 11 test and enroll. In public universities (Quindío and Antioquia) there is an admission process with minimum scores, so my Saber 11 result directly influences my goals.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Habilidades necesarias</span><span class="en">Necessary skills</span></h3>
+        <ul>
+          <li><span class="es">Lógica</span><span class="en">Logic</span></li>
+          <li><span class="es">Matemáticas</span><span class="en">Mathematics</span></li>
+          <li><span class="es">Resolución de problemas</span><span class="en">Problem solving</span></li>
+          <li><span class="es">Trabajo en equipo</span><span class="en">Teamwork</span></li>
+          <li><span class="es">Inglés técnico</span><span class="en">Technical English</span></li>
+          <li><span class="es">Ganas de aprender toda la vida</span><span class="en">Willingness to learn for life</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Campos de trabajo y ocupaciones</span><span class="en">Work fields and occupations</span></h3>
+        <p class="es">Empresas de software, bancos, comercio, salud, educación, gobierno, videojuegos o trabajo independiente (freelance). Ocupaciones: desarrollador web o móvil, ingeniero de software, analista de datos, administrador de bases de datos, especialista en ciberseguridad, tester de calidad, soporte y consultoría TI, y desarrollador de videojuegos.</p>
+        <p class="en">Software companies, banks, commerce, health, education, government, video games or freelance work. Occupations: web or mobile developer, software engineer, data analyst, database administrator, cybersecurity specialist, quality tester, IT support and consulting, and video game developer.</p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PARTE 3 -->
+    <section id="parte3" class="reveal-section">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <div class="section-info">
+          <div class="section-title"><span class="es">¿Por qué elegí esta carrera?</span><span class="en">Why I chose this career</span></div>
+          <div class="section-subtitle"><span class="es">Mis tres razones principales</span><span class="en">My three main reasons</span></div>
+        </div>
+        <span class="lang-tag"><span class="es">ESPAÑOL</span><span class="en">ENGLISH</span></span>
+      </div>
+
+      <div class="card">
+        <p class="es">Elegí Ingeniería de Sistemas por tres razones:</p>
+        <p class="en">I chose Systems Engineering for three reasons:</p>
+        <ul>
+          <li><strong><span class="es">Me gusta programar.</span><span class="en">I like programming.</span></strong> <span class="es">Es un área donde puedo crear cosas desde cero y ver los resultados de lo que hago.</span><span class="en">It is an area where I can create things from scratch and see the results of what I do.</span></li>
+          <li><strong><span class="es">Conozco la carrera de cerca.</span><span class="en">I know the career up close.</span></strong> <span class="es">Tengo amigos y familiares que trabajan en esto y me han contado cómo es el día a día, lo bueno y lo difícil.</span><span class="en">I have friends and family who work in this and have told me about the day-to-day, the good and the difficult.</span></li>
+          <li><strong><span class="es">Me permite trabajar desde casa.</span><span class="en">It allows me to work from home.</span></strong> <span class="es">Es una profesión que se puede ejercer desde cualquier lugar y donde es posible ser contratado de forma remota, incluso por empresas de otros países. Eso me da libertad para planear mi vida.</span><span class="en">It is a profession that can be practiced from anywhere and where it is possible to be hired remotely, even by companies from other countries. That gives me freedom to plan my life.</span></li>
+        </ul>
+      </div>
+
+      <div class="quote">
+        <p class="es">Mi interés por esta carrera surgió cuando empecé a jugar videojuegos y me pregunté cómo se hacen, o vi a mis amigos y familiares trabajar en tecnología. Lo que más me llama la atención es poder crear soluciones que otras personas usen.</p>
+        <p class="en">My interest in this career started when I began playing video games and wondered how they are made, or saw my friends and family working in technology. What most catches my attention is being able to create solutions that other people use.</p>
+        <p style="margin-top:16px; font-size:0.9rem; opacity:0.9;"><span class="es"><strong>Imagen que me representa:</strong> Me gusta la tecnología, el fútbol y los videojuegos, y quiero vivir de lo que me gusta.</span><span class="en"><strong>Image that represents me:</strong> I like technology, soccer and video games, and I want to live from what I like.</span></p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PARTE 4 (INGLÉS ÚNICAMENTE) -->
+    <section id="parte4" class="reveal-section">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <div class="section-info">
+          <div class="section-title">My path to the future</div>
+          <div class="section-subtitle">Short, medium and long term goals</div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <!-- SHORT TERM -->
+        <div class="timeline-item">
+          <div class="timeline-marker short">1</div>
+          <div class="timeline-content short">
+            <div class="timeline-header">
+              <h4>Short term</h4>
+              <span class="timeline-tag short">1-2 years</span>
+            </div>
+            <ul>
+              <li>Finish my technical program at SENA.</li>
+              <li>Do my best on the Saber 11 test.</li>
+              <li>Get my first job.</li>
+              <li>Improve my English and practice programming every day.</li>
+              <li>Start my university studies.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- MEDIUM TERM -->
+        <div class="timeline-item">
+          <div class="timeline-marker medium">2</div>
+          <div class="timeline-content medium">
+            <div class="timeline-header">
+              <h4>Medium term</h4>
+              <span class="timeline-tag medium">3-5 years</span>
+            </div>
+            <ul>
+              <li>Finish my Systems Engineering degree.</li>
+              <li>Do my professional internship.</li>
+              <li>Become independent and move out of my parents' house.</li>
+              <li>Build a portfolio with my own projects.</li>
+              <li>Travel or do an exchange program to improve my English and meet new cultures.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- LONG TERM -->
+        <div class="timeline-item">
+          <div class="timeline-marker long">3</div>
+          <div class="timeline-content long">
+            <div class="timeline-header">
+              <h4>Long term</h4>
+              <span class="timeline-tag long">5+ years</span>
+            </div>
+            <ul>
+              <li>Become a professional systems engineer with a stable job.</li>
+              <li>Work remotely for companies in Colombia and other countries.</li>
+              <li>Study a specialization or master's degree (for example, in cybersecurity or software engineering).</li>
+              <li>Buy my own house.</li>
+              <li>Help my family.</li>
+              <li>Create my own company someday.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PARTE 5 -->
+    <section id="parte5" class="reveal-section">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <div class="section-info">
+          <div class="section-title"><span class="es">La realidad de mi profesión</span><span class="en">The reality of my profession</span></div>
+          <div class="section-subtitle"><span class="es">Empleo, salario, retos y habilidades del futuro</span><span class="en">Employment, salary, challenges and future skills</span></div>
+        </div>
+        <span class="lang-tag"><span class="es">ESPAÑOL</span><span class="en">ENGLISH</span></span>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Oportunidades laborales</span><span class="en">Job opportunities</span></h3>
+        <p class="es">Según el Observatorio Laboral para la Educación del Ministerio de Educación, la empleabilidad de los graduados en Ingeniería de Sistemas llega a cerca del 90% dentro de los seis meses posteriores al grado. Es una de las ingenierías con mejor salida laboral del país.</p>
+        <p class="en">According to the Labor Observatory for Education of the Ministry of Education, the employability of Systems Engineering graduates reaches nearly 90% within six months after graduation. It is one of the engineering fields with the best job prospects in the country.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Salario aproximado</span><span class="en">Approximate salary</span></h3>
+        <p class="es">Un recién graduado en Colombia suele empezar entre uno y dos salarios mínimos, aunque varía según el área y la empresa. Con experiencia el ingreso sube: un ingeniero de sistemas senior puede ganar entre 4 y 7 millones de pesos mensuales.</p>
+        <p class="en">A recent graduate in Colombia usually starts between one and two minimum wages, although it varies by area and company. With experience, income increases: a senior systems engineer can earn between 4 and 7 million pesos per month.</p>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">¿Dónde puedo trabajar?</span><span class="en">Where can I work?</span></h3>
+        <ul>
+          <li><span class="es">Empresas de tecnología</span><span class="en">Technology companies</span></li>
+          <li><span class="es">Bancos</span><span class="en">Banks</span></li>
+          <li><span class="es">Hospitales</span><span class="en">Hospitals</span></li>
+          <li><span class="es">Universidades</span><span class="en">Universities</span></li>
+          <li><span class="es">Entidades públicas</span><span class="en">Public entities</span></li>
+          <li><span class="es">Startups</span><span class="en">Startups</span></li>
+          <li><span class="es">Freelance para clientes del exterior</span><span class="en">Freelance for international clients</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Retos y dificultades</span><span class="en">Challenges and difficulties</span></h3>
+        <ul>
+          <li><span class="es">Hay que estudiar toda la vida, porque las tecnologías cambian rápido.</span><span class="en">You have to study for life, because technologies change fast.</span></li>
+          <li><span class="es">La carrera es exigente, sobre todo en matemáticas y programación durante los primeros semestres.</span><span class="en">The career is demanding, especially in mathematics and programming during the first semesters.</span></li>
+          <li><span class="es">El primer empleo puede ser difícil de conseguir sin experiencia.</span><span class="en">The first job can be difficult to get without experience.</span></li>
+          <li><span class="es">Pasar muchas horas frente al computador afecta la salud (postura, vista, sedentarismo). El trabajo remoto puede aislar.</span><span class="en">Spending many hours in front of the computer affects health (posture, eyesight, sedentarism). Remote work can be isolating.</span></li>
+          <li><span class="es">Hay competencia, incluso con profesionales de otros países.</span><span class="en">There is competition, even with professionals from other countries.</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3><span class="es">Habilidades importantes para el futuro</span><span class="en">Important skills for the future</span></h3>
+        <p class="es">Inglés, inteligencia artificial, ciberseguridad, computación en la nube, trabajo en equipo y comunicación.</p>
+        <p class="en">English, artificial intelligence, cybersecurity, cloud computing, teamwork and communication.</p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- PARTE 6 -->
+    <section id="parte6" class="reveal-section">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <div class="section-info">
+          <div class="section-title"><span class="es">¿Cómo me imagino en el futuro?</span><span class="en">How do I see myself in the future?</span></div>
+          <div class="section-subtitle"><span class="es">Mi visión a 10 años</span><span class="en">My 10-year vision</span></div>
+        </div>
+        <span class="lang-tag"><span class="es">ESPAÑOL</span><span class="en">ENGLISH</span></span>
+      </div>
+
+      <div class="card">
+        <p class="es">Me imagino dentro de unos 10 años viviendo en mi propia casa, trabajando como ingeniero de sistemas de forma remota para empresas de Colombia y del exterior, con tiempo para mi familia, para jugar fútbol y para seguir aprendiendo. Habré terminado mi carrera y quizás una especialización, y estaré ayudando a mi familia. Para mí será importante tener estabilidad, libertad y sentirme orgulloso de lo que logré con esfuerzo.</p>
+        <p class="en">I imagine myself in about 10 years living in my own house, working as a systems engineer remotely for companies in Colombia and abroad, with time for my family, to play soccer and to keep learning. I will have finished my degree and maybe a specialization, and I will be helping my family. For me it will be important to have stability, freedom and feel proud of what I achieved with effort.</p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#parte1"><span class="es">Inicio</span><span class="en">Home</span></a>
+        <a href="#parte4"><span class="es">Línea del tiempo</span><span class="en">Timeline</span></a>
+        <a href="#" onclick="window.print()"><span class="es">PDF</span><span class="en">PDF</span></a>
+      </div>
+      <div class="footer-text">
+        Daniel Esteban Quintero Londoño · Proyecto de Vida · Grado 11 · Ingeniería de Sistemas
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Cambio de idioma
+    const btns = document.querySelectorAll('.lang-btn');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        document.body.setAttribute('data-lang', lang);
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    // ============ COLOR PALETTE SWITCHER ============
+    const colorToggleBtn = document.getElementById('colorToggleBtn');
+    const colorPanel = document.getElementById('colorPanel');
+    const closeColorPanel = document.getElementById('closeColorPanel');
+    const paletteBtns = document.querySelectorAll('.palette-btn');
+    const colorPrimary = document.getElementById('colorPrimary');
+    const colorPrimaryDark = document.getElementById('colorPrimaryDark');
+    const colorPrimaryLight = document.getElementById('colorPrimaryLight');
+    const colorBg = document.getElementById('colorBg');
+    const colorBgCard = document.getElementById('colorBgCard');
+    const resetColors = document.getElementById('resetColors');
+
+    colorToggleBtn.addEventListener('click', () => {
+      colorPanel.classList.toggle('open');
+    });
+
+    closeColorPanel.addEventListener('click', () => {
+      colorPanel.classList.remove('open');
+    });
+
+    const palettes = {
+      purple:  { primary: '#8b5cf6', dark: '#7c3aed', light: '#c084fc' },
+      blue:    { primary: '#3b82f6', dark: '#2563eb', light: '#93c5fd' },
+      green:   { primary: '#10b981', dark: '#059669', light: '#6ee7b7' },
+      orange:  { primary: '#f97316', dark: '#ea580c', light: '#fdba74' },
+      red:     { primary: '#ef4444', dark: '#dc2626', light: '#fca5a5' },
+      pink:    { primary: '#ec4899', dark: '#db2777', light: '#f0abfc' },
+      copilot: { primary: '#160048', dark: '#500a00', light: '#f08a3a' },
+      github:  { primary: '#1a61fe', dark: '#0f4c81', light: '#5fbfff' },
+      cyberpunk: { primary: '#00f3ff', dark: '#ff00ff', light: '#ff0055' },
+      ocean:   { primary: '#0f4c81', dark: '#1b263b', light: '#6eb1f2' },
+      forest:  { primary: '#1b4332', dark: '#14532d', light: '#40916c' }
+    };
+
+    paletteBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const palette = btn.getAttribute('data-palette');
+        const colors = palettes[palette];
+        colorPrimary.value = colors.primary;
+        colorPrimaryDark.value = colors.dark;
+        colorPrimaryLight.value = colors.light;
+        document.documentElement.style.setProperty('--primary', colors.primary);
+        document.documentElement.style.setProperty('--primary-dark', colors.dark);
+        document.documentElement.style.setProperty('--primary-light', colors.light);
+        paletteBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    colorPrimary.addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--primary', e.target.value);
+      paletteBtns.forEach(b => b.classList.remove('active'));
+    });
+
+    colorPrimaryDark.addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--primary-dark', e.target.value);
+      paletteBtns.forEach(b => b.classList.remove('active'));
+    });
+
+    colorPrimaryLight.addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--primary-light', e.target.value);
+      paletteBtns.forEach(b => b.classList.remove('active'));
+    });
+
+    colorBg.addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--bg', e.target.value);
+      paletteBtns.forEach(b => b.classList.remove('active'));
+    });
+
+    colorBgCard.addEventListener('input', (e) => {
+      document.documentElement.style.setProperty('--bg-card', e.target.value);
+      paletteBtns.forEach(b => b.classList.remove('active'));
+    });
+
+    resetColors.addEventListener('click', () => {
+      document.documentElement.style.setProperty('--primary', '#8b5cf6');
+      document.documentElement.style.setProperty('--primary-dark', '#7c3aed');
+      document.documentElement.style.setProperty('--primary-light', '#c084fc');
+      document.documentElement.style.setProperty('--bg', '#0a0814');
+      document.documentElement.style.setProperty('--bg-card', '#1a1530');
+      colorPrimary.value = '#8b5cf6';
+      colorPrimaryDark.value = '#7c3aed';
+      colorPrimaryLight.value = '#c084fc';
+      colorBg.value = '#0a0814';
+      colorBgCard.value = '#1a1530';
+      paletteBtns.forEach(b => b.classList.remove('active'));
+      document.querySelector('.palette-btn[data-palette="purple"]').classList.add('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!colorPanel.contains(e.target) && !colorToggleBtn.contains(e.target)) {
+        colorPanel.classList.remove('open');
+      }
+    });
+
+    // ============ ANIMACIONES POR BLOQUES (SCROLL REVEAL) ============
+    const observerOptions = {
+      threshold: 0.08,
+      rootMargin: '0px 0px -60px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal-section').forEach(section => {
+      observer.observe(section);
+    });
+
+    // Animar secciones ya visibles al cargar la página
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.reveal-section').forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+          section.classList.add('active');
+        }
+      });
+    });
+
+    // ============ BARRA DE PROGRESO ============
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('progressBar').style.width = scrolled + '%';
+    });
+
+    // ============ HEADER SCROLL ============
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('mainHeader');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // ============ PANTALLA COMPLETA ============
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          fullscreenBtn.classList.add('fullscreen-active');
+          fullscreenBtn.title = 'Salir de pantalla completa';
+        }).catch(err => {
+          console.log('Error al entrar en pantalla completa:', err);
+        });
+      } else {
+        document.exitFullscreen().then(() => {
+          fullscreenBtn.classList.remove('fullscreen-active');
+          fullscreenBtn.title = 'Pantalla completa';
+        });
+      }
+    }
+
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        fullscreenBtn.classList.add('fullscreen-active');
+        fullscreenBtn.title = 'Salir de pantalla completa';
+      } else {
+        fullscreenBtn.classList.remove('fullscreen-active');
+        fullscreenBtn.title = 'Pantalla completa';
+      }
+    });
+  </script>
+</body>
+</html>
